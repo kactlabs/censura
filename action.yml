@@ -1,6 +1,6 @@
 name: "Censura"
 description: "Black++ - The enhanced Python code formatter with additional features."
-author: "Łukasz Langa and contributors to Black (forked as Censura)"
+author: "Raja CSP Raman and Kactii Team"
 inputs:
   options:
     description:

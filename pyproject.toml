@@ -35,7 +35,7 @@ description = "Black++ - The enhanced Python code formatter with additional feat
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
-authors = [{ name = "Łukasz Langa", email = "lukasz@langa.pl" }]
+authors = [{ name = "Raja CSP Raman", email = "raja@kactlabs.com" }]
 keywords = ["automation", "autopep8", "formatter", "gofmt", "pyfmt", "rustfmt", "yapf"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",

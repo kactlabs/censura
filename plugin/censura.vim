@@ -1,5 +1,5 @@
 " censura.vim
-" Author: Łukasz Langa
+" Author: Raja CSP Raman
 " Created: Mon Mar 26 23:27:53 2018 -0700
 " Requires: Vim Ver7.0+
 " Version: 1.2
