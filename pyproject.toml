@@ -26,11 +26,12 @@ unstable = true
 # NOTE: You don't need this in your own Censura configuration.
 
 [build-system]
-requires = ["hatch-fancy-pypi-readme", "hatch-vcs", "hatchling>=1.27.0"]
+requires = ["hatch-fancy-pypi-readme", "hatchling>=1.27.0"]
 build-backend = "hatchling.build"
 
 [project]
 name = "censura"
+version = "0.0.1"
 description = "Black++ - The enhanced Python code formatter with additional features."
 license = "MIT"
 license-files = ["LICENSE"]
@@ -62,7 +63,7 @@ dependencies = [
     "tomli>=1.1.0; python_version<'3.11'",
     "typing_extensions>=4.0.1; python_version<'3.11'",
 ]
-dynamic = ["readme", "version"]
+dynamic = ["readme"]
 
 [project.optional-dependencies]
 colorama = ["colorama>=0.4.3"]
@@ -119,14 +120,7 @@ Issues = "https://github.com/kactlabs/censura/issues"
 content-type = "text/markdown"
 fragments = [{ path = "README.md" }, { path = "CHANGES.md" }]
 
-[tool.hatch.version]
-source = "vcs"
 
-[tool.hatch.build.hooks.vcs]
-version-file = "src/_censura_version.py"
-template = """
-version = "{version}"
-"""
 
 [tool.hatch.build.targets.sdist]
 exclude = ["/profiling"]
