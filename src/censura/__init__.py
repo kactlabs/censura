@@ -61,6 +61,7 @@ from censura.lines import EmptyLineTracker, LinesBlock
 from censura.mode import FUTURE_FLAG_TO_FEATURE, VERSION_TO_FEATURES, Feature
 from censura.mode import Mode as Mode  # re-exported
 from censura.mode import Preview, TargetVersion, supports_feature
+from censura.naming import fix_naming_conventions
 from censura.nodes import STARS, is_number_token, is_simple_decorator_expression, syms
 from censura.output import color_diff, diff, dump_to_file, err, ipynb_diff, out
 from censura.parsing import (  # noqa F401
@@ -1055,7 +1056,9 @@ def check_stability_and_equivalence(
     equivalent, or if a second pass of the formatter would format the
     content differently.
     """
-    assert_equivalent(src_contents, dst_contents)
+    # Apply naming fixes to source for fair comparison
+    src_with_naming_fixes = fix_naming_conventions(src_contents)
+    assert_equivalent(src_with_naming_fixes, dst_contents)
     assert_stable(src_contents, dst_contents, mode=mode, lines=lines)
 
 
@@ -1211,7 +1214,11 @@ def format_str(
     if src_contents != dst_contents:
         if lines:
             lines = adjusted_lines(lines, src_contents, dst_contents)
-        return _format_str_once(dst_contents, mode=mode, lines=lines)
+        dst_contents = _format_str_once(dst_contents, mode=mode, lines=lines)
+    
+    # Apply naming convention fixes after formatting
+    dst_contents = fix_naming_conventions(dst_contents)
+    
     return dst_contents
 
 

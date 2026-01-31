@@ -44,7 +44,7 @@ def main(changes: str, source_version_control: str) -> None:
 
 
 if __name__ == "__main__":
-    with open("CHANGES.md", encoding="utf-8") as fd:
+    with open("CHANGELOG.md", encoding="utf-8") as fd:
         changes = fd.read()
     with open(
         os.path.join("docs", "integrations", "source_version_control.md"),

@@ -16,9 +16,9 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Grep CHANGES.md for PR number
+      - name: Grep CHANGELOG.md for PR number
         if: contains(github.event.pull_request.labels.*.name, 'skip news') != true
         run: |
-          grep -Pz "\((\n\s*)?#${{ github.event.pull_request.number }}(\n\s*)?\)" CHANGES.md || \
-          (echo "Please add '(#${{ github.event.pull_request.number }})' change line to CHANGES.md (or if appropriate, ask a maintainer to add the 'skip news' label)" && \
+          grep -Pz "\((\n\s*)?#${{ github.event.pull_request.number }}(\n\s*)?\)" CHANGELOG.md || \
+          (echo "Please add '(#${{ github.event.pull_request.number }})' change line to CHANGELOG.md (or if appropriate, ask a maintainer to add the 'skip news' label)" && \
           exit 1)

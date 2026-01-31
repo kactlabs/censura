@@ -24,7 +24,7 @@
        other enhancements. -->
 
 - [ ] Implement any code style changes under the `--preview` style, following the stability policy?
-- [ ] Add an entry in `CHANGES.md` if necessary?
+- [ ] Add an entry in `CHANGELOG.md` if necessary?
 - [ ] Add / update tests if necessary?
 - [ ] Add new / update outdated documentation?
 

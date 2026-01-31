@@ -31,7 +31,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "censura"
-version = "0.0.1"
+version = "0.1.0"
 description = "Black++ - The enhanced Python code formatter with additional features."
 license = "MIT"
 license-files = ["LICENSE"]
@@ -112,13 +112,13 @@ censura = "censura.schema:get_schema"
 
 [project.urls]
 Documentation = "https://censura.readthedocs.io/"
-Changelog = "https://github.com/kactlabs/censura/blob/main/CHANGES.md"
+Changelog = "https://github.com/kactlabs/censura/blob/main/CHANGELOG.md"
 Repository = "https://github.com/kactlabs/censura"
 Issues = "https://github.com/kactlabs/censura/issues"
 
 [tool.hatch.metadata.hooks.fancy-pypi-readme]
 content-type = "text/markdown"
-fragments = [{ path = "README.md" }, { path = "CHANGES.md" }]
+fragments = [{ path = "README.md" }, { path = "CHANGELOG.md" }]
 
 
 

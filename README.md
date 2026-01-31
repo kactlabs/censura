@@ -53,6 +53,14 @@ project.
 "No". _Censura_ is all about sensible defaults, just like Black. Applying those defaults will have your
 code in compliance with many other _Censura_ formatted projects.
 
+## Utility Scripts
+
+_Censura_ includes helpful utility scripts in the `scripts/` directory:
+
+- **fix_pylint_naming.py** - Automatically fix pylint naming convention issues by converting module-level variables to UPPER_CASE constants
+
+See [scripts/README.md](scripts/README.md) for detailed documentation on all available scripts.
+
 ## License
 
 MIT

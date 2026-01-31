@@ -98,7 +98,7 @@ class SourceFiles:
     def __init__(self, censura_repo_dir: Path):
         # File path fun all pathlib to be platform agnostic
         self.censura_repo_path = censura_repo_dir
-        self.changes_path = self.censura_repo_path / "CHANGES.md"
+        self.changes_path = self.censura_repo_path / "CHANGELOG.md"
         self.docs_path = self.censura_repo_path / "docs"
         self.version_doc_paths = (
             self.docs_path / "integrations" / "source_version_control.md",
@@ -111,14 +111,14 @@ class SourceFiles:
         return f"""\
 > SourceFiles ENV:
   Repo path: {self.censura_repo_path}
-  CHANGES.md path: {self.changes_path}
+  CHANGELOG.md path: {self.changes_path}
   docs path: {self.docs_path}
   Current version: {self.current_version}
   Next version: {self.next_version}
 """
 
     def add_template_to_changes(self) -> int:
-        """Add the template to CHANGES.md if it does not exist"""
+        """Add the template to CHANGELOG.md if it does not exist"""
         LOG.info(f"Adding template to {self.changes_path}")
 
         with self.changes_path.open("r", encoding="utf-8") as cfp:
@@ -180,7 +180,7 @@ class SourceFiles:
         return f"{base_calver}.{int(same_month_version) + 1}"
 
     def update_repo_for_release(self) -> int:
-        """Update CHANGES.md + doc files ready for release"""
+        """Update CHANGELOG.md + doc files ready for release"""
         self.cleanup_changes_template_for_release()
         self.update_version_in_docs()
         return 0  # return 0 if no exceptions hit
@@ -219,7 +219,7 @@ def parse_args() -> argparse.Namespace:
         "-a",
         "--add-changes-template",
         action="store_true",
-        help="Add the Unreleased template to CHANGES.md",
+        help="Add the Unreleased template to CHANGELOG.md",
     )
     parser.add_argument(
         "-d", "--debug", action="store_true", help="Verbose debug output"
