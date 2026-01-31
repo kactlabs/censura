@@ -165,12 +165,19 @@ sed -i '' "s/given to Black through/given to Censura through/g" tests/test_censu
 sed -i '' 's|from black/__init__|from censura/__init__|g' tests/test_censura.py
 sed -i '' 's|black/__init__|censura/__init__|g' tests/test_censura.py
 sed -i '' "s/Exclude shouldn't touch files that were explicitly given to Black/Exclude shouldn't touch files that were explicitly given to Censura/g" tests/test_censura.py
+sed -i '' 's/BlackBaseTestCase/CensuraBaseTestCase/g' tests/test_censura.py
+sed -i '' 's/class BlackTestCase/class CensuraTestCase/g' tests/test_censura.py
+sed -i '' 's/def invokeBlack/def invokeCensura/g' tests/test_censura.py
+sed -i '' 's/invokeBlack/invokeCensura/g' tests/test_censura.py
+sed -i '' 's/self\.invokeBlack/self.invokeCensura/g' tests/test_censura.py
+sed -i '' 's/class TestASTSafety(BlackBaseTestCase)/class TestASTSafety(CensuraBaseTestCase)/g' tests/test_censura.py
 
 echo "Fixing tests/util.py..."
 sed -i '' 's/to check that Black formats/to check that Censura formats/g' tests/util.py
 sed -i '' "s/ensure that Black doesn't/ensure that Censura doesn't/g" tests/util.py
 sed -i '' 's/Black crashed formatting/Censura crashed formatting/g' tests/util.py
 sed -i '' "s/Black's autodetection/Censura's autodetection/g" tests/util.py
+sed -i '' 's/class BlackBaseTestCase/class CensuraBaseTestCase/g' tests/util.py
 
 # ============================================================================
 # TEST DATA FILES

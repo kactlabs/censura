@@ -5,11 +5,11 @@ class C[ T ] : pass
 
 def all_in[T   :   int,U : (bytes, str),*   Ts,**P](): pass
 
-def really_long[WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeBlackSplitThisLine](): pass
+def really_long[WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeCensuraSplitThisLine](): pass
 
-def even_longer[WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeBlackSplitThisLine: WhatIfItHadABound](): pass
+def even_longer[WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeCensuraSplitThisLine: WhatIfItHadABound](): pass
 
-def it_gets_worse[WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeBlackSplitThisLine, ItCouldBeGenericOverMultipleTypeVars](): pass
+def it_gets_worse[WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeCensuraSplitThisLine, ItCouldBeGenericOverMultipleTypeVars](): pass
 
 def magic[Trailing, Comma,](): pass
 
@@ -37,19 +37,19 @@ def all_in[T: int, U: (bytes, str), *Ts, **P]():
 
 
 def really_long[
-    WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeBlackSplitThisLine
+    WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeCensuraSplitThisLine
 ]():
     pass
 
 
 def even_longer[
-    WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeBlackSplitThisLine: WhatIfItHadABound
+    WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeCensuraSplitThisLine: WhatIfItHadABound
 ]():
     pass
 
 
 def it_gets_worse[
-    WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeBlackSplitThisLine,
+    WhatIsTheLongestTypeVarNameYouCanThinkOfEnoughToMakeCensuraSplitThisLine,
     ItCouldBeGenericOverMultipleTypeVars,
 ]():
     pass

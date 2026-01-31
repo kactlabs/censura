@@ -235,7 +235,7 @@ def validate_regex(
     context_settings={"help_option_names": ["-h", "--help"]},
     # While Click does set this field automatically using the docstring, mypyc
     # (annoyingly) strips 'em so we need to set it here too.
-    help="Black++ - The enhanced code formatter with additional features.",
+    help="Censura - The enhanced code formatter with additional features.",
 )
 @click.option("-c", "--code", type=str, help="Format the code passed in as a string.")
 @click.option(
@@ -545,7 +545,7 @@ def main(
     config: str | None,
     no_cache: bool,
 ) -> None:
-    """Black++ - The enhanced code formatter with additional features."""
+    """Censura - The enhanced code formatter with additional features."""
     ctx.ensure_object(dict)
 
     assert sys.version_info >= (3, 10), "Censura requires Python 3.10+"

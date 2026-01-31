@@ -50,7 +50,7 @@ from tests.util import (
     PROJECT_ROOT,
     PY36_VERSIONS,
     THIS_DIR,
-    BlackBaseTestCase,
+    CensuraBaseTestCase,
     assert_format,
     change_directory,
     dump_to_stderr,
@@ -122,7 +122,7 @@ class CensuraRunner(CliRunner):
             super().__init__(mix_stderr=False)  # type: ignore
 
 
-def invokeBlack(
+def invokeCensura(
     args: list[str], exit_code: int = 0, ignore_config: bool = True
 ) -> None:
     runner = CensuraRunner()
@@ -140,8 +140,8 @@ def invokeBlack(
     assert result.exit_code == exit_code, msg
 
 
-class BlackTestCase(BlackBaseTestCase):
-    invokeBlack = staticmethod(invokeBlack)
+class CensuraTestCase(CensuraBaseTestCase):
+    invokeCensura = staticmethod(invokeCensura)
 
     def test_empty_ff(self) -> None:
         expected = ""
@@ -373,7 +373,7 @@ class BlackTestCase(BlackBaseTestCase):
         source, _ = read_data("miscellaneous", "invalid_header")
         tmp_file = Path(censura.dump_to_file(source))
         # Full source should fail (invalid syntax at header)
-        self.invokeBlack([str(tmp_file), "--diff", "--check"], exit_code=123)
+        self.invokeCensura([str(tmp_file), "--diff", "--check"], exit_code=123)
         # So, skipping the first line should work
         result = CensuraRunner().invoke(
             censura.main, [str(tmp_file), "-x", f"--config={EMPTY_CONFIG}"]
@@ -431,7 +431,7 @@ class BlackTestCase(BlackBaseTestCase):
         censura.assert_equivalent(source, actual)
         censura.assert_stable(source, actual, DEFAULT_MODE)
         # ensure censura can parse this when the target is 3.7
-        self.invokeBlack([str(source_path), "--target-version", "py37"])
+        self.invokeCensura([str(source_path), "--target-version", "py37"])
 
     def test_tab_comment_indentation(self) -> None:
         contents_tab = "if 1:\n\tif 2:\n\t\tpass\n\t# comment\n\tpass\n"
@@ -1073,27 +1073,27 @@ class BlackTestCase(BlackBaseTestCase):
                 (workspace / "two.py").resolve(),
             ]:
                 f.write_text('print("hello")\n', encoding="utf-8")
-            self.invokeBlack([str(workspace)])
+            self.invokeCensura([str(workspace)])
 
     @event_loop()
     def test_check_diff_use_together(self) -> None:
         with cache_dir():
             # Files which will be reformatted.
             src1 = get_case_path("miscellaneous", "string_quotes")
-            self.invokeBlack([str(src1), "--diff", "--check"], exit_code=1)
+            self.invokeCensura([str(src1), "--diff", "--check"], exit_code=1)
             # Files which will not be reformatted.
             src2 = get_case_path("cases", "composition")
-            self.invokeBlack([str(src2), "--diff", "--check"])
+            self.invokeCensura([str(src2), "--diff", "--check"])
             # Multi file command.
-            self.invokeBlack([str(src1), str(src2), "--diff", "--check"], exit_code=1)
+            self.invokeCensura([str(src1), str(src2), "--diff", "--check"], exit_code=1)
 
     def test_no_src_fails(self) -> None:
         with cache_dir():
-            self.invokeBlack([], exit_code=1)
+            self.invokeCensura([], exit_code=1)
 
     def test_src_and_code_fails(self) -> None:
         with cache_dir():
-            self.invokeBlack([".", "-c", "0"], exit_code=1)
+            self.invokeCensura([".", "-c", "0"], exit_code=1)
 
     def test_broken_symlink(self) -> None:
         with cache_dir() as workspace:
@@ -1102,7 +1102,7 @@ class BlackTestCase(BlackBaseTestCase):
                 symlink.symlink_to("nonexistent.py")
             except (OSError, NotImplementedError) as e:
                 self.skipTest(f"Can't create symlinks: {e}")
-            self.invokeBlack([str(workspace.resolve())])
+            self.invokeCensura([str(workspace.resolve())])
 
     def test_single_file_force_pyi(self) -> None:
         pyi_mode = replace(DEFAULT_MODE, is_pyi=True)
@@ -1110,7 +1110,7 @@ class BlackTestCase(BlackBaseTestCase):
         with cache_dir() as workspace:
             path = (workspace / "file.py").resolve()
             path.write_text(contents, encoding="utf-8")
-            self.invokeBlack([str(path), "--pyi"])
+            self.invokeCensura([str(path), "--pyi"])
             actual = path.read_text(encoding="utf-8")
             # verify cache with --pyi is separate
             pyi_cache = censura.Cache.read(pyi_mode)
@@ -1133,7 +1133,7 @@ class BlackTestCase(BlackBaseTestCase):
             ]
             for path in paths:
                 path.write_text(contents, encoding="utf-8")
-            self.invokeBlack([str(p) for p in paths] + ["--pyi"])
+            self.invokeCensura([str(p) for p in paths] + ["--pyi"])
             for path in paths:
                 actual = path.read_text(encoding="utf-8")
                 self.assertEqual(actual, expected)
@@ -1160,7 +1160,7 @@ class BlackTestCase(BlackBaseTestCase):
         with cache_dir() as workspace:
             path = (workspace / "file.py").resolve()
             path.write_text(source, encoding="utf-8")
-            self.invokeBlack([str(path), *PY36_ARGS])
+            self.invokeCensura([str(path), *PY36_ARGS])
             actual = path.read_text(encoding="utf-8")
             # verify cache with --target-version is separate
             py36_cache = censura.Cache.read(py36_mode)
@@ -1181,7 +1181,7 @@ class BlackTestCase(BlackBaseTestCase):
             ]
             for path in paths:
                 path.write_text(source, encoding="utf-8")
-            self.invokeBlack([str(p) for p in paths] + PY36_ARGS)
+            self.invokeCensura([str(p) for p in paths] + PY36_ARGS)
             for path in paths:
                 actual = path.read_text(encoding="utf-8")
                 self.assertEqual(actual, expected)
@@ -1363,41 +1363,41 @@ class BlackTestCase(BlackBaseTestCase):
                 assert output.getvalue() == expected
 
     def test_cli_unstable(self) -> None:
-        self.invokeBlack(["--unstable", "-c", "0"], exit_code=0)
-        self.invokeBlack(["--preview", "-c", "0"], exit_code=0)
+        self.invokeCensura(["--unstable", "-c", "0"], exit_code=0)
+        self.invokeCensura(["--preview", "-c", "0"], exit_code=0)
         # Must also pass --preview
-        self.invokeBlack(
+        self.invokeCensura(
             ["--enable-unstable-feature", "string_processing", "-c", "0"], exit_code=1
         )
-        self.invokeBlack(
+        self.invokeCensura(
             ["--preview", "--enable-unstable-feature", "string_processing", "-c", "0"],
             exit_code=0,
         )
-        self.invokeBlack(
+        self.invokeCensura(
             ["--unstable", "--enable-unstable-feature", "string_processing", "-c", "0"],
             exit_code=0,
         )
 
     def test_invalid_cli_regex(self) -> None:
         for option in ["--include", "--exclude", "--extend-exclude", "--force-exclude"]:
-            self.invokeBlack(["-", option, "**()(!!*)"], exit_code=2)
+            self.invokeCensura(["-", option, "**()(!!*)"], exit_code=2)
 
     def test_required_version_matches_version(self) -> None:
-        self.invokeBlack(
+        self.invokeCensura(
             ["--required-version", censura.__version__, "-c", "0"],
             exit_code=0,
             ignore_config=True,
         )
 
     def test_required_version_matches_partial_version(self) -> None:
-        self.invokeBlack(
+        self.invokeCensura(
             ["--required-version", censura.__version__.split(".")[0], "-c", "0"],
             exit_code=0,
             ignore_config=True,
         )
 
     def test_required_version_does_not_match_on_minor_version(self) -> None:
-        self.invokeBlack(
+        self.invokeCensura(
             ["--required-version", censura.__version__.split(".")[0] + ".999", "-c", "0"],
             exit_code=1,
             ignore_config=True,
@@ -1468,7 +1468,7 @@ class BlackTestCase(BlackBaseTestCase):
             tmp_config = Path(censura.dump_to_file())
             tmp_config.unlink()
             args = ["--config", str(tmp_config), str(tmp_file)]
-            self.invokeBlack(args, exit_code=2, ignore_config=False)
+            self.invokeCensura(args, exit_code=2, ignore_config=False)
         finally:
             tmp_file.unlink()
 
@@ -2174,7 +2174,7 @@ class TestCaching:
             assert censura.Cache.read(mode).file_data == {}
             src = (workspace / "test.py").resolve()
             src.write_text("print('hello')", encoding="utf-8")
-            invokeBlack([str(src)])
+            invokeCensura([str(src)])
             cache = censura.Cache.read(mode)
             assert not cache.is_changed(src)
 
@@ -2185,7 +2185,7 @@ class TestCaching:
             src.write_text("print('hello')", encoding="utf-8")
             cache = censura.Cache.read(mode)
             cache.write([src])
-            invokeBlack([str(src)])
+            invokeCensura([str(src)])
             assert src.read_text(encoding="utf-8") == "print('hello')"
 
     @event_loop()
@@ -2201,7 +2201,7 @@ class TestCaching:
             two.write_text("print('hello')", encoding="utf-8")
             cache = censura.Cache.read(mode)
             cache.write([one])
-            invokeBlack([str(workspace)])
+            invokeCensura([str(workspace)])
             assert one.read_text(encoding="utf-8") == "print('hello')"
             assert two.read_text(encoding="utf-8") == 'print("hello")\n'
             cache = censura.Cache.read(mode)
@@ -2222,7 +2222,7 @@ class TestCaching:
                 cmd = [str(src), "--diff"]
                 if color:
                     cmd.append("--color")
-                invokeBlack(cmd)
+                invokeCensura(cmd)
                 cache_file = get_cache_file(mode)
                 assert cache_file.exists() is False
                 read_cache.assert_called_once()
@@ -2241,7 +2241,7 @@ class TestCaching:
                 cmd = ["--diff", str(workspace)]
                 if color:
                     cmd.append("--color")
-                invokeBlack(cmd, exit_code=0)
+                invokeCensura(cmd, exit_code=0)
                 # this isn't quite doing what we want, but if it _isn't_
                 # called then we cannot be using the lock it provides
                 mgr.assert_called()
@@ -2270,7 +2270,7 @@ class TestCaching:
                 patch.object(censura.Cache, "write") as write_cache,
             ):
                 # Pass --no-cache; it should neither read nor write
-                invokeBlack([str(src), "--no-cache"])
+                invokeCensura([str(src), "--no-cache"])
                 read_cache.assert_not_called()
                 write_cache.assert_not_called()
 
@@ -2293,7 +2293,7 @@ class TestCaching:
                 patch.object(censura.Cache, "write") as write_cache,
             ):
                 # Run Censura over the directory with --no-cache
-                invokeBlack([str(workspace), "--no-cache"])
+                invokeCensura([str(workspace), "--no-cache"])
 
                 # Cache should not be consulted or updated
                 read_cache.assert_not_called()
@@ -2402,7 +2402,7 @@ class TestCaching:
             failing.write_text("not actually python", encoding="utf-8")
             clean = (workspace / "clean.py").resolve()
             clean.write_text('print("hello")\n', encoding="utf-8")
-            invokeBlack([str(workspace)], exit_code=123)
+            invokeCensura([str(workspace)], exit_code=123)
             cache = censura.Cache.read(mode)
             assert cache.is_changed(failing)
             assert not cache.is_changed(clean)
@@ -3052,7 +3052,7 @@ class TestDeFactoAPI:
             censura.format_file_contents("x = 1\n", fast=True, mode=censura.Mode())
 
 
-class TestASTSafety(BlackBaseTestCase):
+class TestASTSafety(CensuraBaseTestCase):
     def check_ast_equivalence(
         self, source: str, dest: str, *, should_fail: bool = False
     ) -> None:

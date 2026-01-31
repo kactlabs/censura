@@ -187,7 +187,7 @@ def dump_to_stderr(*output: str) -> str:
     return "\n" + "\n".join(output) + "\n"
 
 
-class BlackBaseTestCase(unittest.TestCase):
+class CensuraBaseTestCase(unittest.TestCase):
     def assertFormatEqual(self, expected: str, actual: str) -> None:
         _assert_format_equal(expected, actual)
 
