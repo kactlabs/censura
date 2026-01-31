@@ -4,9 +4,9 @@ message: >-
   If you use this software, please cite it using the metadata from this file.
 type: software
 authors:
-  - family-names: Langa
-    given-names: Łukasz
-  - name: "contributors to Black (forked as Censura)"
+  - family-names: Raman
+    given-names: Raja CSP
+  - name: "Kactii Team"
 repository-code: "https://github.com/kactlabs/censura"
 url: "https://censura.readthedocs.io/en/stable/"
 abstract: >-

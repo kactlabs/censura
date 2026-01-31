@@ -67,5 +67,5 @@ See [AUTHORS.md](./AUTHORS.md)
 
 ## About
 
-Censura is a fork of [Black](https://github.com/psf/black), the uncompromising Python code formatter created by Łukasz Langa and contributors. We extend Black's excellent foundation with additional features and enhancements.
+Censura is an enhanced Python code formatter. It extends proven formatting principles with additional features and improvements, delivering speed, determinism, and freedom from formatting concerns.
 

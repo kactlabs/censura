@@ -281,15 +281,6 @@ sed -i '' 's/black_command/censura_command/g' scripts/migrate-censura.py
 
 echo "Updating configuration files..."
 
-# Fix action.yml - change color from "black" to something else
-sed -i '' 's/color: "black"/color: "purple"/g' action.yml
-sed -i '' 's/author: "Łukasz Langa and contributors to Black (forked as Censura)"/author: "Raja CSP Raman and Kactii Team"/g' action.yml
-
-# Fix pyproject.toml - change author
-sed -i '' 's/authors = \[{ name = "Łukasz Langa", email = "lukasz@langa.pl" }\]/authors = [{ name = "Raja CSP Raman", email = "raja@kactlabs.com" }]/g' pyproject.toml
-
-# Fix plugin author
-sed -i '' 's/" Author: Łukasz Langa/" Author: Raja CSP Raman/g' plugin/censura.vim
 
 # Fix .github templates
 sed -i '' "s/improve Black's quality/improve Censura's quality/g" .github/ISSUE_TEMPLATE/bug_report.md
@@ -345,6 +336,9 @@ sed -i '' 's/black_check/censura_check/g' tests/data/cases/pattern_matching_comp
 
 # Fix type_params test data - variable names
 sed -i '' 's/MakeBlackSplitThisLine/MakeCensuraSplitThisLine/g' tests/data/cases/type_params.py
+
+# Fix expression test data - łukasz references
+sed -i '' 's/authors\.łukasz\.say_thanks()/authors.raja.say_thanks()/g' tests/data/cases/expression.py
 
 # Fix test_ipynb.py - venv display name in test data
 sed -i '' "s/\\\\'black\\\\'/\\\\'censura\\\\'/g" tests/test_ipynb.py
