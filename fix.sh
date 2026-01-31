@@ -336,6 +336,9 @@ sed -i '' 's/without another non-empty line black is stable/without another non-
 # Fix pattern matching test data
 sed -i '' 's/black_check/censura_check/g' tests/data/cases/pattern_matching_complex.py
 
+# Fix type_params test data - variable names
+sed -i '' 's/MakeBlackSplitThisLine/MakeCensuraSplitThisLine/g' tests/data/cases/type_params.py
+
 # Fix test_ipynb.py - venv display name in test data
 sed -i '' "s/\\\\'black\\\\'/\\\\'censura\\\\'/g" tests/test_ipynb.py
 
