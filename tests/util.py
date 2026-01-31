@@ -11,12 +11,12 @@ from functools import partial
 from pathlib import Path
 from typing import Any
 
-import black
-from black.const import DEFAULT_LINE_LENGTH
-from black.debug import DebugVisitor
-from black.mode import TargetVersion
-from black.output import diff, err, out
-from black.ranges import parse_line_ranges
+import censura
+from censura.const import DEFAULT_LINE_LENGTH
+from censura.debug import DebugVisitor
+from censura.mode import TargetVersion
+from censura.output import diff, err, out
+from censura.ranges import parse_line_ranges
 
 from . import conftest
 
@@ -36,14 +36,14 @@ PY36_VERSIONS = {
     TargetVersion.PY39,
 }
 
-DEFAULT_MODE = black.Mode()
-ff = partial(black.format_file_in_place, mode=DEFAULT_MODE, fast=True)
-fs = partial(black.format_str, mode=DEFAULT_MODE)
+DEFAULT_MODE = censura.Mode()
+ff = partial(censura.format_file_in_place, mode=DEFAULT_MODE, fast=True)
+fs = partial(censura.format_str, mode=DEFAULT_MODE)
 
 
 @dataclass
 class TestCaseArgs:
-    mode: black.Mode = field(default_factory=black.Mode)
+    mode: censura.Mode = field(default_factory=censura.Mode)
     fast: bool = False
     minimum_version: tuple[int, int] | None = None
     lines: Collection[tuple[int, int]] = ()
@@ -58,7 +58,7 @@ def _assert_format_equal(expected: str, actual: str) -> None:
         if conftest.PRINT_FULL_TREE:
             out("Expected tree:", fg="green")
         try:
-            exp_node = black.lib2to3_parse(expected)
+            exp_node = censura.lib2to3_parse(expected)
             bdv = DebugVisitor(print_output=conftest.PRINT_FULL_TREE)
             list(bdv.visit(exp_node))
             expected_out = "\n".join(bdv.list_output)
@@ -67,7 +67,7 @@ def _assert_format_equal(expected: str, actual: str) -> None:
         if conftest.PRINT_FULL_TREE:
             out("Actual tree:", fg="red")
         try:
-            exp_node = black.lib2to3_parse(actual)
+            exp_node = censura.lib2to3_parse(actual)
             bdv = DebugVisitor(print_output=conftest.PRINT_FULL_TREE)
             list(bdv.visit(exp_node))
             actual_out = "\n".join(bdv.list_output)
@@ -93,14 +93,14 @@ class FormatFailure(Exception):
 def assert_format(
     source: str,
     expected: str,
-    mode: black.Mode = DEFAULT_MODE,
+    mode: censura.Mode = DEFAULT_MODE,
     *,
     fast: bool = False,
     minimum_version: tuple[int, int] | None = None,
     lines: Collection[tuple[int, int]] = (),
     no_preview_line_length_1: bool = False,
 ) -> None:
-    """Convenience function to check that Black formats as expected.
+    """Convenience function to check that Censura formats as expected.
 
     You can pass @minimum_version if you're passing code with newer syntax to guard
     safety guards so they don't just crash with a SyntaxError. Please note this is
@@ -110,7 +110,7 @@ def assert_format(
         source, expected, mode, fast=fast, minimum_version=minimum_version, lines=lines
     )
 
-    # For both preview and non-preview tests, ensure that Black doesn't crash on
+    # For both preview and non-preview tests, ensure that Censura doesn't crash on
     # this code, but don't pass "expected" because the precise output may differ.
     try:
         if mode.unstable:
@@ -132,7 +132,7 @@ def assert_format(
             else "non-preview" if mode.preview else "preview"
         )
         raise FormatFailure(
-            f"Black crashed formatting this case in {text} mode."
+            f"Censura crashed formatting this case in {text} mode."
         ) from e
     # Similarly, setting line length to 1 is a good way to catch
     # stability bugs. Some tests are known to be broken in preview mode with line length
@@ -155,20 +155,20 @@ def assert_format(
         except Exception as e:
             text = "preview" if preview_mode else "non-preview"
             raise FormatFailure(
-                f"Black crashed formatting this case in {text} mode with line-length=1."
+                f"Censura crashed formatting this case in {text} mode with line-length=1."
             ) from e
 
 
 def _assert_format_inner(
     source: str,
     expected: str | None = None,
-    mode: black.Mode = DEFAULT_MODE,
+    mode: censura.Mode = DEFAULT_MODE,
     *,
     fast: bool = False,
     minimum_version: tuple[int, int] | None = None,
     lines: Collection[tuple[int, int]] = (),
 ) -> None:
-    actual = black.format_str(source, mode=mode, lines=lines)
+    actual = censura.format_str(source, mode=mode, lines=lines)
     if expected is not None:
         _assert_format_equal(expected, actual)
     # It's not useful to run safety checks if we're expecting no changes anyway. The
@@ -179,8 +179,8 @@ def _assert_format_inner(
         # being able to parse the code being formatted. This doesn't always work out
         # when checking modern code on older versions.
         if minimum_version is None or sys.version_info >= minimum_version:
-            black.assert_equivalent(source, actual)
-        black.assert_stable(source, actual, mode=mode, lines=lines)
+            censura.assert_equivalent(source, actual)
+        censura.assert_stable(source, actual, mode=mode, lines=lines)
 
 
 def dump_to_stderr(*output: str) -> str:
@@ -260,7 +260,7 @@ def get_flags_parser() -> argparse.ArgumentParser:
             "Minimum version of Python where this test case is parseable. If this is"
             " set, the test case will be run twice: once without the specified"
             " --target-version, and once with --target-version set to exactly the"
-            " specified version. This ensures that Black's autodetection of the target"
+            " specified version. This ensures that Censura's autodetection of the target"
             " version works correctly."
         ),
     )
@@ -280,7 +280,7 @@ def get_flags_parser() -> argparse.ArgumentParser:
 def parse_mode(flags_line: str) -> TestCaseArgs:
     parser = get_flags_parser()
     args = parser.parse_args(shlex.split(flags_line))
-    mode = black.Mode(
+    mode = censura.Mode(
         target_versions=set(args.target_version),
         line_length=args.line_length,
         string_normalization=not args.skip_string_normalization,

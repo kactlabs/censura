@@ -5,9 +5,9 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Optional
 
-import black.concurrency as concurrency
-from black import Mode, WriteBack
-from black.report import Report
+import censura.concurrency as concurrency
+from censura import Mode, WriteBack
+from censura.report import Report
 
 
 class FakeManager:

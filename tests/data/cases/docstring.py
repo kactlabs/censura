@@ -217,7 +217,7 @@ def multiline_docstring_at_line_limit():
 def stable_quote_normalization_with_immediate_inner_single_quote(self):
     ''''<text here>
 
-    <text here, since without another non-empty line black is stable>
+    <text here, since without another non-empty line censura is stable>
     '''
 
 
@@ -446,7 +446,7 @@ def multiline_docstring_at_line_limit():
 def stable_quote_normalization_with_immediate_inner_single_quote(self):
     """'<text here>
 
-    <text here, since without another non-empty line black is stable>
+    <text here, since without another non-empty line censura is stable>
     """
 
 

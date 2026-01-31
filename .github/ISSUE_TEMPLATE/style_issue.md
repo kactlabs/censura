@@ -1,6 +1,6 @@
 ---
 name: Code style issue
-about: Help us improve the Black code style
+about: Help us improve the Censura code style
 title: ""
 labels: "T: style"
 assignees: ""
@@ -18,7 +18,7 @@ how the current _Black_ style is not great: -->
 
 ```python
 def f():
-    """This code should be formatted as per the current Black style"""
+    """This code should be formatted as per the current Censura style"""
     pass
 ```
 

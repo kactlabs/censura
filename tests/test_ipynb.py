@@ -9,7 +9,7 @@ import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from click.testing import CliRunner
 
-from black import (
+from censura import (
     Mode,
     NothingChanged,
     format_cell,
@@ -17,7 +17,7 @@ from black import (
     format_file_in_place,
     main,
 )
-from black.handle_ipynb_magics import jupyter_dependencies_are_installed
+from censura.handle_ipynb_magics import jupyter_dependencies_are_installed
 from tests.util import DATA_DIR, get_case_path, read_jupyter_notebook
 
 with contextlib.suppress(ModuleNotFoundError):
@@ -55,7 +55,7 @@ def test_trailing_semicolon_with_comment() -> None:
 
 
 def test_trailing_semicolon_with_comment_on_next_line() -> None:
-    src = "import black;\n\n# this is a comment"
+    src = "import censura;\n\n# this is a comment"
     with pytest.raises(NothingChanged):
         format_cell(src, fast=True, mode=JUPYTER_MODE)
 
@@ -254,7 +254,7 @@ def test_cell_magic_with_magic_noop() -> None:
 
 
 def test_automagic() -> None:
-    src = "pip install black"
+    src = "pip install censura"
     with pytest.raises(NothingChanged):
         format_cell(src, fast=True, mode=JUPYTER_MODE)
 
@@ -351,7 +351,7 @@ def test_entire_notebook_trailing_newline() -> None:
         '   "hash": "e758f3098b5b55f4d87fe30bbdc1367f20f246b483f96267ee70e6c40cb185d8"\n'  # noqa:B950
         "  },\n"
         '  "kernelspec": {\n'
-        '   "display_name": "Python 3.8.10 64-bit (\'black\': venv)",\n'
+        '   "display_name": "Python 3.8.10 64-bit (\'censura\': venv)",\n'
         '   "name": "python3"\n'
         "  },\n"
         '  "language_info": {\n'
@@ -398,7 +398,7 @@ def test_entire_notebook_no_trailing_newline() -> None:
         '   "hash": "e758f3098b5b55f4d87fe30bbdc1367f20f246b483f96267ee70e6c40cb185d8"\n'  # noqa: B950
         "  },\n"
         '  "kernelspec": {\n'
-        '   "display_name": "Python 3.8.10 64-bit (\'black\': venv)",\n'
+        '   "display_name": "Python 3.8.10 64-bit (\'censura\': venv)",\n'
         '   "name": "python3"\n'
         "  },\n"
         '  "language_info": {\n'
@@ -472,13 +472,13 @@ def test_cache_isnt_written_if_no_jupyter_deps_single(
     nb = get_case_path("jupyter", "notebook_trailing_newline.ipynb")
     tmp_nb = tmp_path / "notebook.ipynb"
     tmp_nb.write_bytes(nb.read_bytes())
-    monkeypatch.setattr("black.jupyter_dependencies_are_installed", lambda warn: False)
+    monkeypatch.setattr("censura.jupyter_dependencies_are_installed", lambda warn: False)
     result = runner.invoke(
         main, [str(tmp_path / "notebook.ipynb"), f"--config={EMPTY_CONFIG}"]
     )
     assert "No Python files are present to be formatted. Nothing to do" in result.output
     jupyter_dependencies_are_installed.cache_clear()
-    monkeypatch.setattr("black.jupyter_dependencies_are_installed", lambda warn: True)
+    monkeypatch.setattr("censura.jupyter_dependencies_are_installed", lambda warn: True)
     result = runner.invoke(
         main, [str(tmp_path / "notebook.ipynb"), f"--config={EMPTY_CONFIG}"]
     )
@@ -494,13 +494,13 @@ def test_cache_isnt_written_if_no_jupyter_deps_dir(
     tmp_nb = tmp_path / "notebook.ipynb"
     tmp_nb.write_bytes(nb.read_bytes())
     monkeypatch.setattr(
-        "black.files.jupyter_dependencies_are_installed", lambda warn: False
+        "censura.files.jupyter_dependencies_are_installed", lambda warn: False
     )
     result = runner.invoke(main, [str(tmp_path), f"--config={EMPTY_CONFIG}"])
     assert "No Python files are present to be formatted. Nothing to do" in result.output
     jupyter_dependencies_are_installed.cache_clear()
     monkeypatch.setattr(
-        "black.files.jupyter_dependencies_are_installed", lambda warn: True
+        "censura.files.jupyter_dependencies_are_installed", lambda warn: True
     )
     result = runner.invoke(main, [str(tmp_path), f"--config={EMPTY_CONFIG}"])
     assert "reformatted" in result.output
@@ -544,6 +544,6 @@ def test_unable_to_replace_magics(monkeypatch: MonkeyPatch) -> None:
     src = '%%time\na = b"foo"'
     monkeypatch.setattr("secrets.token_hex", lambda _: "foo")
     with pytest.raises(
-        AssertionError, match="Black was not able to replace IPython magic"
+        AssertionError, match="Censura was not able to replace IPython magic"
     ):
         format_cell(src, fast=True, mode=JUPYTER_MODE)

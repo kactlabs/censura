@@ -25,7 +25,7 @@ match smth:
                    ):
         pass  # some comment
 
-# case black_test_patma_052 (originally in the pattern_matching_complex test case)
+# case censura_test_patma_052 (originally in the pattern_matching_complex test case)
 match x:
     case [1, 0] if x := x[:0]:
         y = 1
@@ -64,7 +64,7 @@ match smth:
     case match if True:  # some comment
         pass  # some comment
 
-# case black_test_patma_052 (originally in the pattern_matching_complex test case)
+# case censura_test_patma_052 (originally in the pattern_matching_complex test case)
 match x:
     case [1, 0] if x := x[:0]:
         y = 1

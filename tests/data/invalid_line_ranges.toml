@@ -1,2 +1,2 @@
-[tool.black]
+[tool.censura]
 line-ranges = "1-1"

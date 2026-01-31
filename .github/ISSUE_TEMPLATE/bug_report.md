@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve Black's quality
+about: Create a report to help us improve Censura's quality
 title: ""
 labels: "T: bug"
 assignees: ""
@@ -10,7 +10,7 @@ assignees: ""
 Please make sure that the bug is not already fixed either in newer versions or the
 current development version. To confirm this, you have three options:
 
-1. Update Black's version if a newer release exists: `pip install -U black`
+1. Update Censura's version if a newer release exists: `pip install -U censura`
 2. Use the online formatter at <https://black.vercel.app/?version=main>, which will use
    the latest main branch.
 3. Or run _Black_ on your machine:
@@ -19,7 +19,7 @@ current development version. To confirm this, you have three options:
    - run `pip install -e .[d]`;
    - run `pip install --group tests`
    - make sure it's sane by running `python -m pytest -n auto`; and
-   - run `black` like you did last time.
+   - run `censura` like you did last time.
 -->
 
 **Describe the bug**
@@ -29,7 +29,7 @@ current development version. To confirm this, you have three options:
 **To Reproduce**
 
 <!--
-Minimal steps to reproduce the behavior with source code and Black's configuration.
+Minimal steps to reproduce the behavior with source code and Censura's configuration.
 -->
 
 For example, take this code:
@@ -41,7 +41,7 @@ this = "code"
 And run it with these arguments:
 
 ```sh
-$ black file.py --target-version py310
+$ censura file.py --target-version py310
 ```
 
 The resulting error is:
@@ -56,7 +56,7 @@ The resulting error is:
 
 <!-- Please complete the following information: -->
 
-- Black's version: <!-- e.g. [main] -->
+- Censura's version: <!-- e.g. [main] -->
 - OS and Python version: <!-- e.g. [Linux/Python 3.7.4rc1] -->
 
 **Additional context**

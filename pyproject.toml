@@ -1,37 +1,37 @@
-# Example configuration for Black.
+# Example configuration for Censura.
 
 # NOTE: you have to use single-quoted strings in TOML for regular expressions.
 # It's the equivalent of r-strings in Python.
-# Multiline strings are treated as verbose regular expressions by Black.
+# Multiline strings are treated as verbose regular expressions by Censura.
 # Use [ ] to denote a significant space character.
 
-[tool.black]
+[tool.censura]
 line-length = 88
 target-version = ["py310"]
 include = '\.pyi?$'
 extend-exclude = '''
 /(
-    # The following are specific to Black, you probably don't want those.
+    # The following are specific to Censura, you probably don't want those.
     tests/data/
     | profiling/
 )
 '''
-# We use the unstable style for formatting Black itself. If you
+# We use the unstable style for formatting Censura itself. If you
 # want bug-free formatting, you should keep this off. If you want
 # stable formatting across releases, you should also keep `preview = true`
 # (which is implied by this flag) off.
 unstable = true
 
 # Build system information and other project-specific configuration below.
-# NOTE: You don't need this in your own Black configuration.
+# NOTE: You don't need this in your own Censura configuration.
 
 [build-system]
 requires = ["hatch-fancy-pypi-readme", "hatch-vcs", "hatchling>=1.27.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "black"
-description = "The uncompromising code formatter."
+name = "censura"
+description = "Black++ - The enhanced Python code formatter with additional features."
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
@@ -103,17 +103,17 @@ diff-shades-comment = ["click>=8.1.7", "packaging>=22.0", "urllib3"]
 width-table = ["wcwidth>=0.2.14"]
 
 [project.scripts]
-black = "black:patched_main"
-blackd = "blackd:patched_main [d]"
+censura = "censura:patched_main"
+censurad = "censurad:patched_main [d]"
 
 [project.entry-points."validate_pyproject.tool_schema"]
-black = "black.schema:get_schema"
+censura = "censura.schema:get_schema"
 
 [project.urls]
-Documentation = "https://black.readthedocs.io/"
-Changelog = "https://github.com/psf/black/blob/main/CHANGES.md"
-Repository = "https://github.com/psf/black"
-Issues = "https://github.com/psf/black/issues"
+Documentation = "https://censura.readthedocs.io/"
+Changelog = "https://github.com/kactlabs/censura/blob/main/CHANGES.md"
+Repository = "https://github.com/kactlabs/censura"
+Issues = "https://github.com/kactlabs/censura/issues"
 
 [tool.hatch.metadata.hooks.fancy-pypi-readme]
 content-type = "text/markdown"
@@ -123,7 +123,7 @@ fragments = [{ path = "README.md" }, { path = "CHANGES.md" }]
 source = "vcs"
 
 [tool.hatch.build.hooks.vcs]
-version-file = "src/_black_version.py"
+version-file = "src/_censura_version.py"
 template = """
 version = "{version}"
 """
@@ -142,19 +142,19 @@ enable-by-default = false
 dependencies = ["hatch-mypyc>=0.16.0", "mypy==1.19.1"]
 require-runtime-dependencies = true
 exclude = [
-    # There's no good reason for blackd to be compiled.
-    "/src/blackd",
+    # There's no good reason for censurad to be compiled.
+    "/src/censurad",
     # Not performance sensitive, so save bytes + compilation time:
     "/src/blib2to3/__init__.py",
     "/src/blib2to3/pgen2/__init__.py",
-    "/src/black/output.py",
-    "/src/black/concurrency.py",
-    "/src/black/files.py",
-    "/src/black/report.py",
+    "/src/censura/output.py",
+    "/src/censura/concurrency.py",
+    "/src/censura/files.py",
+    "/src/censura/report.py",
     # Breaks the test suite when compiled (and is also useless):
-    "/src/black/debug.py",
+    "/src/censura/debug.py",
     # Compiled modules can't be run directly and that's a problem here:
-    "/src/black/__main__.py",
+    "/src/censura/__main__.py",
 ]
 mypy-args = ["--ignore-missing-imports"]
 options = { debug_level = "0" }
@@ -198,16 +198,16 @@ profile = "black"
 line_length = 88
 skip_gitignore = true
 skip_glob = ["tests/data", "profiling"]
-known_first_party = ["black", "blib2to3", "blackd", "_black_version"]
+known_first_party = ["censura", "blib2to3", "censurad", "_censura_version"]
 
 [tool.pytest.ini_options]
 # Option below requires `tests/optional.py`
 addopts = "--strict-config --strict-markers"
 optional-tests = [
-    "no_blackd: run when `d` extra NOT installed",
+    "no_censurad: run when `d` extra NOT installed",
     "no_jupyter: run when `jupyter` extra NOT installed",
 ]
-markers = ["incompatible_with_mypyc: run when testing mypyc compiled black"]
+markers = ["incompatible_with_mypyc: run when testing mypyc compiled censura"]
 xfail_strict = true
 filterwarnings = ["error"]
 [tool.coverage.report]

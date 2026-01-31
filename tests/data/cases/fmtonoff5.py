@@ -1,4 +1,4 @@
-# Regression test for https://github.com/psf/black/issues/3129.
+# Regression test for https://github.com/psf/supergreen/issues/3129.
 setup(
     entry_points={
         # fmt: off
@@ -11,7 +11,7 @@ setup(
 )
 
 
-# Regression test for https://github.com/psf/black/issues/2015.
+# Regression test for https://github.com/psf/supergreen/issues/2015.
 run(
     # fmt: off
     [
@@ -24,7 +24,7 @@ run(
 )
 
 
-# Regression test for https://github.com/psf/black/issues/3026.
+# Regression test for https://github.com/psf/supergreen/issues/3026.
 def test_func():
     # yapf: disable
     if  unformatted(  args  ):
@@ -36,7 +36,7 @@ def test_func():
     return False
 
 
-# Regression test for https://github.com/psf/black/issues/2567.
+# Regression test for https://github.com/psf/supergreen/issues/2567.
 if True:
     # fmt: off
     for _ in range( 1 ):
@@ -47,7 +47,7 @@ else:
     print ( "This will be formatted" )
 
 
-# Regression test for https://github.com/psf/black/issues/3184.
+# Regression test for https://github.com/psf/supergreen/issues/3184.
 class A:
     async def call(param):
         if param:
@@ -64,7 +64,7 @@ class A:
         print ( "This will be formatted" )
 
 
-# Regression test for https://github.com/psf/black/issues/2985.
+# Regression test for https://github.com/psf/supergreen/issues/2985.
 class Named(t.Protocol):
     # fmt: off
     @property
@@ -75,7 +75,7 @@ class Factory(t.Protocol):
     # fmt: on
 
 
-# Regression test for https://github.com/psf/black/issues/3436.
+# Regression test for https://github.com/psf/supergreen/issues/3436.
 if x:
     return x
 # fmt: off
@@ -87,7 +87,7 @@ elif   unformatted:
 # output
 
 
-# Regression test for https://github.com/psf/black/issues/3129.
+# Regression test for https://github.com/psf/supergreen/issues/3129.
 setup(
     entry_points={
         # fmt: off
@@ -100,7 +100,7 @@ setup(
 )
 
 
-# Regression test for https://github.com/psf/black/issues/2015.
+# Regression test for https://github.com/psf/supergreen/issues/2015.
 run(
     # fmt: off
     [
@@ -113,7 +113,7 @@ run(
 )
 
 
-# Regression test for https://github.com/psf/black/issues/3026.
+# Regression test for https://github.com/psf/supergreen/issues/3026.
 def test_func():
     # yapf: disable
     if  unformatted(  args  ):
@@ -125,7 +125,7 @@ def test_func():
     return False
 
 
-# Regression test for https://github.com/psf/black/issues/2567.
+# Regression test for https://github.com/psf/supergreen/issues/2567.
 if True:
     # fmt: off
     for _ in range( 1 ):
@@ -136,7 +136,7 @@ else:
     print("This will be formatted")
 
 
-# Regression test for https://github.com/psf/black/issues/3184.
+# Regression test for https://github.com/psf/supergreen/issues/3184.
 class A:
     async def call(param):
         if param:
@@ -153,7 +153,7 @@ class A:
         print("This will be formatted")
 
 
-# Regression test for https://github.com/psf/black/issues/2985.
+# Regression test for https://github.com/psf/supergreen/issues/2985.
 class Named(t.Protocol):
     # fmt: off
     @property
@@ -166,7 +166,7 @@ class Factory(t.Protocol):
     # fmt: on
 
 
-# Regression test for https://github.com/psf/black/issues/3436.
+# Regression test for https://github.com/psf/supergreen/issues/3436.
 if x:
     return x
 # fmt: off

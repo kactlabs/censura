@@ -1,6 +1,6 @@
 """
 Check that the rev value in the example from ``the_basics.md`` matches
-the latest version of Black. This saves us from forgetting to update that
+the latest version of Censura. This saves us from forgetting to update that
 during the release process.
 """
 
@@ -23,14 +23,14 @@ def main(changes: str, the_basics: str) -> None:
     version_examples = [
         code_block.string
         for code_block in the_basics_soup.find_all(class_="language-console")
-        if "$ black --version" in code_block.string  # type: ignore[operator]
+        if "$ censura --version" in code_block.string  # type: ignore[operator]
     ]
 
     for tag in tags:
         for version_example in version_examples:
             if tag in version_example and tag != latest_tag:  # type: ignore[operator]
                 print(
-                    "Please set the version in the ``black --version`` "
+                    "Please set the version in the ``censura --version`` "
                     "examples from ``the_basics.md`` to be the latest one.\n"
                     f"Expected {latest_tag}, got {tag}.\n"
                 )

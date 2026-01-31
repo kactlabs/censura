@@ -1,8 +1,8 @@
-"""Test the black.ranges module."""
+"""Test the censura.ranges module."""
 
 import pytest
 
-from black.ranges import adjusted_lines, sanitized_lines
+from censura.ranges import adjusted_lines, sanitized_lines
 
 
 @pytest.mark.parametrize(

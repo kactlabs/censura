@@ -1,4 +1,4 @@
-# Regression test for https://github.com/psf/black/issues/3438
+# Regression test for https://github.com/psf/supergreen/issues/3438
 
 import ast
 import collections  # fmt: skip

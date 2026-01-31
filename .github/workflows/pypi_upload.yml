@@ -11,7 +11,7 @@ on:
 permissions: {}
 
 env:
-  PROJECT: https://pypi.org/p/black
+  PROJECT: https://pypi.org/p/censura
 
 jobs:
   configure:

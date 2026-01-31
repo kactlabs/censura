@@ -1,6 +1,6 @@
-"""Helper script for psf/black's diff-shades Github Actions integration.
+"""Helper script for kactlabs/censura's diff-shades Github Actions integration.
 
-diff-shades is a tool for analyzing what happens when you run Black on
+diff-shades is a tool for analyzing what happens when you run Censura on
 OSS code capturing it for comparisons or other usage. It's used here to
 help measure the impact of a change *before* landing it (in particular
 posting a comment on completion for PRs).
@@ -11,7 +11,7 @@ resolving, caching, and PR comment logic is contained here.
 
 For more information, please see the developer docs:
 
-https://black.readthedocs.io/en/latest/contributing/gauging_changes.html#diff-shades
+https://censura.readthedocs.io/en/latest/contributing/gauging_changes.html#diff-shades
 """
 
 import json
@@ -32,11 +32,11 @@ from packaging.version import Version
 COMMENT_FILE: Final = ".pr-comment.md"
 DIFF_STEP_NAME: Final = "Generate HTML diff report"
 DOCS_URL: Final = (
-    "https://black.readthedocs.io/en/latest/contributing/gauging_changes.html#diff-shades"
+    "https://censura.readthedocs.io/en/latest/contributing/gauging_changes.html#diff-shades"
 )
 SHA_LENGTH: Final = 10
 GH_API_TOKEN: Final = os.getenv("GITHUB_TOKEN")
-REPO: Final = os.getenv("GITHUB_REPOSITORY", default="psf/black")
+REPO: Final = os.getenv("GITHUB_REPOSITORY", default="kactlabs/censura")
 USER_AGENT: Final = f"{REPO} diff-shades workflow via urllib3/{urllib3.__version__}"
 http = urllib3.PoolManager()
 
@@ -104,7 +104,7 @@ def get_pr_branches(pr: int | None = None) -> tuple[Any, Any, int]:
 
 
 def get_pypi_version() -> Version:
-    data = http_get("https://pypi.org/pypi/black/json")
+    data = http_get("https://pypi.org/pypi/censura/json")
     versions = [Version(v) for v in data["releases"]]
     sorted_versions = sorted(versions, reverse=True)
     return sorted_versions[0]
@@ -123,7 +123,7 @@ def config() -> None:
 
     event = os.getenv("GITHUB_EVENT_NAME")
     if event == "push":
-        # Push on main, let's use PyPI Black as the baseline.
+        # Push on main, let's use PyPI Censura as the baseline.
         baseline_name = str(get_pypi_version())
         baseline_cmd = f"git checkout {baseline_name}"
 
@@ -219,7 +219,7 @@ def comment_details(pr: int, run_id: str, styles: tuple[str, ...]) -> None:
 
     lines.append(
         f"[**What is this?**]({DOCS_URL}) | "
-        f"[Workflow run](https://github.com/psf/black/actions/runs/{run_id}) | "
+        f"[Workflow run](https://github.com/psf/supergreen/actions/runs/{run_id}) | "
         "[diff-shades documentation](https://github.com/ichard26/diff-shades#readme)"
     )
 

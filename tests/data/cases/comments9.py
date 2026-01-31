@@ -1,4 +1,4 @@
-# Test for https://github.com/psf/black/issues/246.
+# Test for https://github.com/psf/supergreen/issues/246.
 
 some = statement
 # This comment should be split from the statement above by two lines.
@@ -114,7 +114,7 @@ class MyClass:
         pass
 
 
-# Regression test for https://github.com/psf/black/issues/3454.
+# Regression test for https://github.com/psf/supergreen/issues/3454.
 def foo():
     pass
     # Trailing comment that belongs to this function
@@ -126,7 +126,7 @@ def bar():
     pass
 
 
-# Regression test for https://github.com/psf/black/issues/3454.
+# Regression test for https://github.com/psf/supergreen/issues/3454.
 def foo():
     pass
     # Trailing comment that belongs to this function.
@@ -142,7 +142,7 @@ def bar():
 # output
 
 
-# Test for https://github.com/psf/black/issues/246.
+# Test for https://github.com/psf/supergreen/issues/246.
 
 some = statement
 
@@ -279,7 +279,7 @@ class MyClass:
         pass
 
 
-# Regression test for https://github.com/psf/black/issues/3454.
+# Regression test for https://github.com/psf/supergreen/issues/3454.
 def foo():
     pass
     # Trailing comment that belongs to this function
@@ -291,7 +291,7 @@ def bar():
     pass
 
 
-# Regression test for https://github.com/psf/black/issues/3454.
+# Regression test for https://github.com/psf/supergreen/issues/3454.
 def foo():
     pass
     # Trailing comment that belongs to this function.

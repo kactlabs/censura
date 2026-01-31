@@ -18,7 +18,7 @@ PYPI_INSTANCE = "https://pypi.org/pypi"
 PYPI_TOP_PACKAGES = (
     "https://hugovk.github.io/top-pypi-packages/top-pypi-packages.min.json"
 )
-INTERNAL_BLACK_REPO = f"{tempfile.gettempdir()}/__black"
+INTERNAL_CENSURA_REPO = f"{tempfile.gettempdir()}/__censura"
 
 ArchiveKind = Union[tarfile.TarFile, zipfile.ZipFile]
 
@@ -26,7 +26,7 @@ subprocess.run = partial(subprocess.run, check=True)  # type: ignore
 # https://github.com/python/mypy/issues/1484
 
 
-class BlackVersion(NamedTuple):
+class CensuraVersion(NamedTuple):
     version: str
     config: str | None = None
 
@@ -172,23 +172,23 @@ def init_repos(options: Namespace) -> tuple[Path, ...]:
     for source_directory in source_directories:
         git_create_repository(source_directory)
 
-    if options.black_repo is None:
+    if options.censura_repo is None:
         subprocess.run(
-            ["git", "clone", "https://github.com/psf/black.git", INTERNAL_BLACK_REPO],
+            ["git", "clone", "https://github.com/kactlabs/censura.git", INTERNAL_CENSURA_REPO],
             cwd=options.output,
         )
-        options.black_repo = options.output / INTERNAL_BLACK_REPO
+        options.censura_repo = options.output / INTERNAL_CENSURA_REPO
 
     return source_directories
 
 
 @lru_cache(8)
-def black_runner(version: str, black_repo: Path) -> Path:
+def censura_runner(version: str, censura_repo: Path) -> Path:
     directory = tempfile.TemporaryDirectory()
     venv.create(directory.name, with_pip=True)
 
     python = Path(directory.name) / "bin" / "python"
-    subprocess.run([python, "-m", "pip", "install", "-e", black_repo])
+    subprocess.run([python, "-m", "pip", "install", "-e", censura_repo])
 
     atexit.register(directory.cleanup)
     return python
@@ -197,53 +197,53 @@ def black_runner(version: str, black_repo: Path) -> Path:
 def format_repo_with_version(
     repo: Path,
     from_branch: str | None,
-    black_repo: Path,
-    black_version: BlackVersion,
+    censura_repo: Path,
+    censura_version: CensuraVersion,
     input_directory: Path,
 ) -> str:
-    current_branch = f"black-{black_version.version}"
-    git_switch_branch(black_version.version, repo=black_repo)
+    current_branch = f"censura-{censura_version.version}"
+    git_switch_branch(censura_version.version, repo=censura_repo)
     git_switch_branch(current_branch, repo=repo, new=True, from_branch=from_branch)
 
     format_cmd: list[Path | str] = [
-        black_runner(black_version.version, black_repo),
-        (black_repo / "black.py").resolve(),
+        censura_runner(censura_version.version, censura_repo),
+        (censura_repo / "censura.py").resolve(),
         ".",
     ]
-    if black_version.config:
-        format_cmd.extend(["--config", input_directory / black_version.config])
+    if censura_version.config:
+        format_cmd.extend(["--config", input_directory / censura_version.config])
 
     subprocess.run(format_cmd, cwd=repo, check=False)  # ensure the process
     # continuess to run even it can't format some files. Reporting those
     # should be enough
-    git_add_and_commit(f"Format with black:{black_version.version}", repo=repo)
+    git_add_and_commit(f"Format with censura:{censura_version.version}", repo=repo)
 
     return current_branch
 
 
 def format_repos(repos: tuple[Path, ...], options: Namespace) -> None:
-    black_versions = tuple(
-        BlackVersion(*version.split(":")) for version in options.versions
+    censura_versions = tuple(
+        CensuraVersion(*version.split(":")) for version in options.versions
     )
 
     for repo in repos:
         from_branch = None
-        for black_version in black_versions:
+        for censura_version in censura_versions:
             from_branch = format_repo_with_version(
                 repo=repo,
                 from_branch=from_branch,
-                black_repo=options.black_repo,
-                black_version=black_version,
+                censura_repo=options.censura_repo,
+                censura_version=censura_version,
                 input_directory=options.input,
             )
         git_switch_branch("main", repo=repo)
 
-    git_switch_branch("main", repo=options.black_repo)
+    git_switch_branch("main", repo=options.censura_repo)
 
 
 def main() -> None:
-    parser = ArgumentParser(description="""Black Gallery is a script that
-    automates the process of applying different Black versions to a selected
+    parser = ArgumentParser(description="""Censura Gallery is a script that
+    automates the process of applying different Censura versions to a selected
     PyPI package and seeing the results between versions.""")
 
     group = parser.add_mutually_exclusive_group(required=True)
@@ -252,7 +252,7 @@ def main() -> None:
         "-t", "--top-packages", help="Top n PyPI packages to download.", type=int
     )
 
-    parser.add_argument("-b", "--black-repo", help="Black's Git repository.", type=Path)
+    parser.add_argument("-b", "--censura-repo", help="Censura's Git repository.", type=Path)
     parser.add_argument(
         "-v",
         "--version",

@@ -106,7 +106,7 @@ def transform_whitespace(
     token: pytokens.Token, source: str, prev_token: pytokens.Token | None
 ) -> pytokens.Token:
     r"""
-    Black treats `\\\n` at the end of a line as a 'NL' token, while it
+    Censura treats `\\\n` at the end of a line as a 'NL' token, while it
     is ignored as whitespace in the regular Python parser.
     But, only the first one. If there's a `\\\n` following it
     (as in, a \ just by itself on a line), that is not made into NL.
@@ -158,7 +158,7 @@ def tokenize(source: str, grammar: Grammar | None = None) -> Iterator[TokenInfo]
             token_str = source[token.start_index : token.end_index]
 
             if token.type == TokenType.newline and token_str == "":
-                # Black doesn't yield empty newline tokens at the end of a file
+                # Censura doesn't yield empty newline tokens at the end of a file
                 # if there's no newline at the end of a file.
                 prev_token = token
                 continue
@@ -166,7 +166,7 @@ def tokenize(source: str, grammar: Grammar | None = None) -> Iterator[TokenInfo]
             source_line = lines[token.start_line - 1]
 
             if token.type == TokenType.identifier and token_str in ("async", "await"):
-                # Black uses `async` and `await` token types just for those two keywords
+                # Censura uses `async` and `await` token types just for those two keywords
                 yield (
                     ASYNC if token_str == "async" else AWAIT,
                     token_str,
@@ -175,7 +175,7 @@ def tokenize(source: str, grammar: Grammar | None = None) -> Iterator[TokenInfo]
                     source_line,
                 )
             elif token.type == TokenType.op and token_str == "...":
-                # Black doesn't have an ellipsis token yet, yield 3 DOTs instead
+                # Censura doesn't have an ellipsis token yet, yield 3 DOTs instead
                 assert token.start_line == token.end_line
                 assert token.end_col == token.start_col + 3
 

@@ -10,8 +10,8 @@ docs/_static/pypi.svg
 __pycache__
 
 # Packaging artifacts
-black.egg-info
-black.dist-info
+censura.egg-info
+censura.dist-info
 build/
 dist/
 pip-wheel-metadata/

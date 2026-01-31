@@ -4,8 +4,8 @@ FROM python:3.13-slim
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install git apt-utils -y --no-install-recommends\
-    && git config --global user.email "black@psf.github.com" \
-    && git config --global user.name "Gallery/Black" \
+    && git config --global user.email "censura@kactlabs.github.com" \
+    && git config --global user.name "Gallery/Censura" \
     && rm -rf /var/lib/apt/lists/*
 
 COPY gallery.py /

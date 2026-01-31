@@ -1,4 +1,4 @@
-[tool.black]
+[tool.censura]
 ine_length = 50
 target-ersion = ['py37']
 exclude='\.pyi?$'

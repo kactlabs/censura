@@ -51,7 +51,7 @@ jobs:
       - name: Build executable with PyInstaller
         run:
           python -m PyInstaller -F --name ${{ matrix.asset_name }} --add-data
-          'src/blib2to3${{ matrix.pathsep }}blib2to3' src/black/__main__.py
+          'src/blib2to3${{ matrix.pathsep }}blib2to3' src/censura/__main__.py
 
       - name: Quickly test executable
         run: |

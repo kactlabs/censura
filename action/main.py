@@ -7,23 +7,23 @@ from pathlib import Path
 from subprocess import PIPE, STDOUT, run
 
 ACTION_PATH = Path(os.environ["GITHUB_ACTION_PATH"])
-ENV_PATH = ACTION_PATH / ".black-env"
+ENV_PATH = ACTION_PATH / ".censura-env"
 ENV_BIN = ENV_PATH / ("Scripts" if sys.platform == "win32" else "bin")
 OPTIONS = os.getenv("INPUT_OPTIONS", default="")
 SRC = os.getenv("INPUT_SRC", default="")
 JUPYTER = os.getenv("INPUT_JUPYTER") == "true"
-BLACK_ARGS = os.getenv("INPUT_BLACK_ARGS", default="")
+CENSURA_ARGS = os.getenv("INPUT_CENSURA_ARGS", default="")
 VERSION = os.getenv("INPUT_VERSION", default="")
 USE_PYPROJECT = os.getenv("INPUT_USE_PYPROJECT") == "true"
 OUTPUT_FILE = os.getenv("OUTPUT_FILE", default="")
 
-BLACK_VERSION_RE = re.compile(r"^black([^A-Z0-9._-]+.*)$", re.IGNORECASE)
+CENSURA_VERSION_RE = re.compile(r"^censura([^A-Z0-9._-]+.*)$", re.IGNORECASE)
 EXTRAS_RE = re.compile(r"\[.*\]")
 EXPORT_SUBST_FAIL_RE = re.compile(r"\$Format:.*\$")
 
 
 def determine_version_specifier() -> str:
-    """Determine the version of Black to install.
+    """Determine the version of Censura to install.
 
     The version can be specified either via the `with.version` input or via the
     pyproject.toml file if `with.use_pyproject` is set to `true`.
@@ -66,7 +66,7 @@ def read_version_specifier_from_pyproject() -> str:
         )
         sys.exit(1)
 
-    version = pyproject.get("tool", {}).get("black", {}).get("required-version")
+    version = pyproject.get("tool", {}).get("censura", {}).get("required-version")
     if version is not None:
         # Match the two supported usages of `required-version`:
         if "." in version:
@@ -80,13 +80,13 @@ def read_version_specifier_from_pyproject() -> str:
         *pyproject.get("project", {}).get("optional-dependencies", {}).values(),
     ]
     for array in arrays:
-        version = find_black_version_in_array(array)
+        version = find_censura_version_in_array(array)
         if version is not None:
             break
 
     if version is None:
         print(
-            "::error::'black' dependency missing from pyproject.toml.",
+            "::error::'censura' dependency missing from pyproject.toml.",
             file=sys.stderr,
             flush=True,
         )
@@ -95,7 +95,7 @@ def read_version_specifier_from_pyproject() -> str:
     return version
 
 
-def find_black_version_in_array(array: object) -> str | None:
+def find_censura_version_in_array(array: object) -> str | None:
     if not isinstance(array, list):
         return None
     try:
@@ -103,15 +103,15 @@ def find_black_version_in_array(array: object) -> str | None:
             # Rudimentary PEP 508 parsing.
             item = item.split(";")[0]
             item = EXTRAS_RE.sub("", item).strip()
-            if item == "black":
+            if item == "censura":
                 print(
-                    "::error::Version specifier missing for 'black' dependency in "
+                    "::error::Version specifier missing for 'censura' dependency in "
                     "pyproject.toml.",
                     file=sys.stderr,
                     flush=True,
                 )
                 sys.exit(1)
-            elif m := BLACK_VERSION_RE.match(item):
+            elif m := CENSURA_VERSION_RE.match(item):
                 return m.group(1).strip()
     except TypeError:
         pass
@@ -127,7 +127,7 @@ if JUPYTER:
 else:
     extra_deps = "[colorama]"
 if version_specifier:
-    req = f"black{extra_deps}{version_specifier}"
+    req = f"censura{extra_deps}{version_specifier}"
 else:
     describe_name = ""
     with open(ACTION_PATH / ".git_archival.txt", encoding="utf-8") as fp:
@@ -147,7 +147,7 @@ else:
         and EXPORT_SUBST_FAIL_RE.match(describe_name) is None
     ):
         # the action's commit matches a tag exactly, install exact version from PyPI
-        req = f"black{extra_deps}=={describe_name}"
+        req = f"censura{extra_deps}=={describe_name}"
     else:
         # the action's commit does not match any tag, install from the local git repo
         req = f".{extra_deps}"
@@ -161,15 +161,15 @@ pip_proc = run(
 )
 if pip_proc.returncode:
     print(pip_proc.stdout)
-    print("::error::Failed to install Black.", file=sys.stderr, flush=True)
+    print("::error::Failed to install Censura.", file=sys.stderr, flush=True)
     sys.exit(pip_proc.returncode)
 
 
-base_cmd = [str(ENV_BIN / "black")]
-if BLACK_ARGS:
+base_cmd = [str(ENV_BIN / "censura")]
+if CENSURA_ARGS:
     # TODO: remove after a while since this is deprecated in favour of SRC + OPTIONS.
     proc = run(
-        [*base_cmd, *shlex.split(BLACK_ARGS)],
+        [*base_cmd, *shlex.split(CENSURA_ARGS)],
         stdout=PIPE,
         stderr=STDOUT,
         encoding="utf-8",
@@ -188,7 +188,7 @@ if OUTPUT_FILE:
     try:
         with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
             f.write(proc.stdout)
-        print(f"Black output written to {OUTPUT_FILE}")
+        print(f"Censura output written to {OUTPUT_FILE}")
     except Exception as e:
         print(f"::error::Failed to write output to {OUTPUT_FILE}: {e}", file=sys.stderr)
         sys.exit(1)

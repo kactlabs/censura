@@ -132,7 +132,7 @@ class C:
 
 square = Square(4) # type: Optional[Square]
 
-# Regression test for https://github.com/psf/black/issues/3756.
+# Regression test for https://github.com/psf/supergreen/issues/3756.
 [
     (
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"  # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -295,7 +295,7 @@ class C:
 
 square = Square(4)  # type: Optional[Square]
 
-# Regression test for https://github.com/psf/black/issues/3756.
+# Regression test for https://github.com/psf/supergreen/issues/3756.
 [
     (  # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"

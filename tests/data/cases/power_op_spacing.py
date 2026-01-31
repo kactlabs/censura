@@ -63,7 +63,7 @@ t = (
 )
 
 
-# WE SHOULD DEFINITELY NOT EAT THESE COMMENTS (https://github.com/psf/black/issues/2873)
+# WE SHOULD DEFINITELY NOT EAT THESE COMMENTS (https://github.com/psf/supergreen/issues/2873)
 if hasattr(view, "sum_of_weights"):
     return np.divide(  # type: ignore[no-any-return]
         view.variance,  # type: ignore[union-attr]
@@ -135,7 +135,7 @@ s = 1.0**1.0
 t = 1.0**1.0**1.0**1.0
 
 
-# WE SHOULD DEFINITELY NOT EAT THESE COMMENTS (https://github.com/psf/black/issues/2873)
+# WE SHOULD DEFINITELY NOT EAT THESE COMMENTS (https://github.com/psf/supergreen/issues/2873)
 if hasattr(view, "sum_of_weights"):
     return np.divide(  # type: ignore[no-any-return]
         view.variance,  # type: ignore[union-attr]

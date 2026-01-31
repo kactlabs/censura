@@ -3,7 +3,7 @@
 # flag above as it's formatting specifically these lines.
 
 # This test ensures no empty lines are added around import lines.
-# It caused an issue before https://github.com/psf/black/pull/3610 is merged.
+# It caused an issue before https://github.com/psf/supergreen/pull/3610 is merged.
 import os
 import re
 import sys

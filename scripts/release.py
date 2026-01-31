@@ -27,19 +27,19 @@ NEW_VERSION_CHANGELOG_TEMPLATE = """\
 
 ### Stable style
 
-<!-- Changes that affect Black's stable style -->
+<!-- Changes that affect Censura's stable style -->
 
 ### Preview style
 
-<!-- Changes that affect Black's preview style -->
+<!-- Changes that affect Censura's preview style -->
 
 ### Configuration
 
-<!-- Changes to how Black can be configured -->
+<!-- Changes to how Censura can be configured -->
 
 ### Packaging
 
-<!-- Changes to how Black is packaged, such as dependency requirements -->
+<!-- Changes to how Censura is packaged, such as dependency requirements -->
 
 ### Parser
 
@@ -47,15 +47,15 @@ NEW_VERSION_CHANGELOG_TEMPLATE = """\
 
 ### Performance
 
-<!-- Changes that improve Black's performance. -->
+<!-- Changes that improve Censura's performance. -->
 
 ### Output
 
-<!-- Changes to Black's terminal output and error messages -->
+<!-- Changes to Censura's terminal output and error messages -->
 
-### _Blackd_
+### _Censurad_
 
-<!-- Changes to blackd -->
+<!-- Changes to censurad -->
 
 ### Integrations
 
@@ -95,11 +95,11 @@ def tuple_calver(calver: str) -> tuple[int, ...]:  # mypy can't notice maxsplit 
 
 
 class SourceFiles:
-    def __init__(self, black_repo_dir: Path):
+    def __init__(self, censura_repo_dir: Path):
         # File path fun all pathlib to be platform agnostic
-        self.black_repo_path = black_repo_dir
-        self.changes_path = self.black_repo_path / "CHANGES.md"
-        self.docs_path = self.black_repo_path / "docs"
+        self.censura_repo_path = censura_repo_dir
+        self.changes_path = self.censura_repo_path / "CHANGES.md"
+        self.docs_path = self.censura_repo_path / "docs"
         self.version_doc_paths = (
             self.docs_path / "integrations" / "source_version_control.md",
             self.docs_path / "usage_and_configuration" / "the_basics.md",
@@ -110,7 +110,7 @@ class SourceFiles:
     def __str__(self) -> str:
         return f"""\
 > SourceFiles ENV:
-  Repo path: {self.black_repo_path}
+  Repo path: {self.censura_repo_path}
   CHANGES.md path: {self.changes_path}
   docs path: {self.docs_path}
   Current version: {self.current_version}
@@ -187,7 +187,7 @@ class SourceFiles:
 
     def update_version_in_docs(self) -> None:
         for doc_path in self.version_doc_paths:
-            LOG.info(f"Updating black version to {self.next_version} in {doc_path}")
+            LOG.info(f"Updating censura version to {self.next_version} in {doc_path}")
 
             with doc_path.open("r", encoding="utf-8") as dfp:
                 doc_string = dfp.read()
@@ -200,7 +200,7 @@ class SourceFiles:
                 dfp.write(next_version_doc)
 
             LOG.debug(
-                f"Finished updating black version to {self.next_version} in {doc_path}"
+                f"Finished updating censura version to {self.next_version} in {doc_path}"
             )
 
 

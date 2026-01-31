@@ -3,7 +3,7 @@ from typing import IO, Any
 
 import click
 
-import black
+import censura
 
 
 def generate_schema_from_click(
@@ -48,22 +48,22 @@ def generate_schema_from_click(
 @click.option("--schemastore", is_flag=True, help="SchemaStore format")
 @click.option("--outfile", type=click.File(mode="w"), help="Write to file")
 def main(schemastore: bool, outfile: IO[str]) -> None:
-    properties = generate_schema_from_click(black.main)
+    properties = generate_schema_from_click(censura.main)
     del properties["line-ranges"]
 
     schema: dict[str, Any] = {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "$id": (
-            "https://github.com/psf/black/blob/main/src/black/resources/black.schema.json"
+            "https://github.com/kactlabs/censura/blob/main/src/censura/resources/censura.schema.json"
         ),
-        "$comment": "tool.black table in pyproject.toml",
+        "$comment": "tool.censura table in pyproject.toml",
         "type": "object",
         "additionalProperties": False,
         "properties": properties,
     }
 
     if schemastore:
-        schema["$id"] = "https://json.schemastore.org/partial-black.json"
+        schema["$id"] = "https://json.schemastore.org/partial-censura.json"
         # The precise list of unstable features may change frequently, so don't
         # bother putting it in SchemaStore
         schema["properties"]["enable-unstable-feature"]["items"] = {"type": "string"}
